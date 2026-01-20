@@ -3,6 +3,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);  ?>
 <?php
 // Step 1: Include database connection
+session_start();
+
 include "../database/db.php";
 
 // Step 2: Check if the form was submitted using POST
@@ -36,6 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      VALUES ('$full_name', '$email', '$phone', '$hashed_password')";
 
     if (mysqli_query($conn, $insert_query)) {
+        $_SESSION['signup_success'] = true;
+
         // Step 8: Redirect to login page after successful signup
         header("Location: login.php");
         exit();
@@ -46,4 +50,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Step 9: If someone tries to access directly without POST
     die("Invalid Request.");
 }
+
 ?>

@@ -5,6 +5,14 @@ error_reporting(E_ALL);  ?>
 // Step 1: Start session
 session_start();
 
+$showLoginPopup = false;
+
+if (isset($_SESSION['login_success'])) {
+    $showLoginPopup = true;
+    unset($_SESSION['login_success']);
+}
+
+
 // Step 2: Check if user is logged in
 if (!isset($_SESSION["user_id"])) {
     // If user not logged in, send them back to login page
@@ -36,9 +44,22 @@ if (!isset($_SESSION["user_id"])) {
             <p class="mt-2">Your email: <?php echo $_SESSION["user_email"]; ?></p>
 
             <a href="../logout/logout.php" class="btn btn-danger mt-3">Logout</a>
+              <div style="margin-top : 20px;  ">
+                 <a href="../academy/academy_form.php" class="btn btn-primary">
+                        Academy form
+                 </a>
+              </div>
         </div>
 
     </div>
+  
+<script>
+    const showLoginPopup = <?php echo $showLoginPopup ? 'true' : 'false'; ?>;
+
+    if (showLoginPopup) {
+        alert("Login successful!");
+    }
+</script>
 
 </body>
 </html>

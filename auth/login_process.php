@@ -29,12 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Step 8: Verify password
     if (password_verify($password, $user["password"])) {
+       $_SESSION['login_success'] = true;
 
         // Step 9: Set session variables
         $_SESSION["user_id"] = $user["id"];
         $_SESSION["user_name"] = $user["full_name"];
         $_SESSION["user_email"] = $user["email"];
-
+        
         // Step 10: Redirect to dashboard
         header("Location: ../dashboard/dashboard.php");
         exit();

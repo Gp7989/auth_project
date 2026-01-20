@@ -1,6 +1,9 @@
-<?php ini_set('display_errors', 1);
+<?php
+session_start();
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);  ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +22,17 @@ error_reporting(E_ALL);  ?>
 </head>
 
 <body class="bg-light">
+   
+   
+   <?php
+$showSignupPopup = false;
+
+if (isset($_SESSION['signup_success'])) {
+    $showSignupPopup = true;
+    unset($_SESSION['signup_success']); // popup ek hi baar dikhe
+}
+?>
+
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -56,6 +70,13 @@ error_reporting(E_ALL);  ?>
             </div>
         </div>
     </div>
+<script>
+    const showSignupPopup = <?php echo $showSignupPopup ? 'true' : 'false'; ?>;
+
+    if (showSignupPopup) {
+        alert("Signup successful!");
+    }
+</script>
 
 </body>
 </html>
