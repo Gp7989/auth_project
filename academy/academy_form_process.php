@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include "../database/db.php";
 if (!isset($_SESSION['user_id'])) {
@@ -24,6 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $insert_query =" INSERT INTO admissions (user_id,first_name, middle_name,last_name,address,admission_fee,coaching_fee,total_fee,sgst,cgst,igst,grand_total) VALUES ('$userId', '$first_name', '$middle_name', '$last_name', '$address','$admission_fee', '$coaching_fee', '$total_fee', '$sgst', '$cgst', '$igst', '$grand_total')";
 
   mysqli_query($conn , $insert_query);
+  
+  if (mysqli_affected_rows($conn) > 0) {
+    $_SESSION['admission_success'] = true;
+    header("Location: academy_form_success.php");
+    exit();
+}
+
 }
 
 // yahan next step me data process hoga

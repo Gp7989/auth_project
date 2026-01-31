@@ -6,9 +6,12 @@ error_reporting(E_ALL);  ?>
 session_start();
 
 include "../database/db.php";
+require_once '../helpers/password_helper.php';
+
 
 // Step 2: Check if the form was submitted using POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $_SESSION['old'] = $_POST;
 
     // Step 3: Get form data
     $full_name = $_POST["full_name"];
@@ -17,10 +20,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
 
+    // Check password match
+if ($password !== $confirm_password) {
+    $_SESSION['error'] = "Passwords do not match.";
+    header("Location: signup.php");
+    exit;
+}
+
+// Strong password validation
+$passwordErrors = validateStrongPassword($password);
+
+if (!empty($passwordErrors)) {
+    $_SESSION['error'] = implode("<br>", $passwordErrors);
+    header("Location: signup.php");
+    exit;
+}
+
+
     // Step 4: Validate if passwords match
-    if ($password !== $confirm_password) {
-        die("Error: Passwords do not match.");
-    }
+    // if ($password !== $confirm_password) {
+    //     die("Error: Passwords do not match.");
+    // }
 
     // Step 5: Check if email already exists
     $check_email_query = "SELECT * FROM users WHERE email='$email'";

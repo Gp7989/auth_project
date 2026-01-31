@@ -1,6 +1,19 @@
 <?php ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);  ?>
+<?php session_start(); ?>
+<?php
+if (isset($_SESSION['error'])) {
+    echo '
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        ' . $_SESSION['error'] . '
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    ';
+    unset($_SESSION['error']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,19 +46,20 @@ error_reporting(E_ALL);  ?>
                         <!-- Full Name -->
                         <div class="mb-3">
                             <label for="full_name" class="form-label">Full Name</label>
-                            <input type="text" name="full_name" class="form-control" id="full_name" required>
+                            <input type="text" name="full_name" class="form-control" id="full_name" value="<?= $_SESSION['old']['full_name'] ?? '' ?>" required>
                         </div>
 
                         <!-- Email -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" id="email" required>
+                            <input type="email" name="email" class="form-control" id="email" value="<?= $_SESSION['old']['email'] ?? '' ?>" required>
                         </div>
 
                         <!-- Phone -->
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" name="phone" class="form-control" id="phone" required>
+                            <input type="text" name="phone" class="form-control" id="phone"  maxlength="10" pattern="[0-9]{10}" title="Phone number must be exactly 10 digits"
+                            value="<?= $_SESSION['old']['phone'] ?? '' ?>" required>
                         </div>
 
                         <!-- Password -->

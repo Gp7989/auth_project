@@ -10,5 +10,5 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-echo "DB FILE LOADED <br>";
+// echo "DB FILE LOADED <br>";
 ?>
